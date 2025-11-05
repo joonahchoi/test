@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 건강 습관 점검하기[초등학교]</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #a18cd1 75%, #fbc2eb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 버블 애니메이션 */
+        .bubble {
+            position: fixed;
+            bottom: -100px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 182, 193, 0.3) 40%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                bottom: -100px;
+                transform: translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+                transform: translateX(10px) scale(1);
+            }
+            50% {
+                transform: translateX(-20px) scale(1.1);
+            }
+            100% {
+                bottom: 110vh;
+                transform: translateX(30px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .bubble:nth-child(1) {
+            width: 40px;
+            height: 40px;
+            left: 10%;
+            animation-duration: 8s;
+            animation-delay: 0s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            left: 20%;
+            animation-duration: 12s;
+            animation-delay: 2s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 45px;
+            height: 45px;
+            left: 35%;
+            animation-duration: 10s;
+            animation-delay: 4s;
+        }
+
+        .bubble:nth-child(4) {
+            width: 90px;
+            height: 90px;
+            left: 50%;
+            animation-duration: 18s;
+            animation-delay: 0s;
+        }
+
+        .bubble:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            left: 65%;
+            animation-duration: 14s;
+            animation-delay: 3s;
+        }
+
+        .bubble:nth-child(6) {
+            width: 50px;
+            height: 50px;
+            left: 75%;
+            animation-duration: 16s;
+            animation-delay: 1s;
+        }
+
+        .bubble:nth-child(7) {
+            width: 80px;
+            height: 80px;
+            left: 85%;
+            animation-duration: 11s;
+            animation-delay: 5s;
+        }
+
+        .bubble:nth-child(8) {
+            width: 35px;
+            height: 35px;
+            left: 90%;
+            animation-duration: 9s;
+            animation-delay: 2.5s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.15) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            color: #d946ef;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            background: linear-gradient(135deg, #ff9a9e 0%, #a18cd1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        h2 {
+            color: #a855f7;
+            font-size: 1.5em;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .header-box p {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #d946ef;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #fce4ec;
+        }
+
+        .section > p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+
+        /* 수면 유형 섹션 */
+        .type-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .type-item {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .type-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .type-item.selected {
+            border-color: #d946ef;
+            background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(217, 70, 239, 0.3);
+        }
+
+        .type-item h3 {
+            color: #444;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .type-item.selected h3 {
+            color: #d946ef;
+            font-weight: 600;
+        }
+
+        .type-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .type-item p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        /* 신체 활동 섹션 */
+        .horizontal-radio {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .horizontal-radio input[type="radio"] {
+            display: none;
+        }
+
+        .horizontal-radio label {
+            background: #f8f9ff;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #666;
+            border: 2px solid transparent;
+        }
+
+        .horizontal-radio label:hover {
+            background: #e8ecff;
+            transform: translateY(-2px);
+        }
+
+        .horizontal-radio input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c66cdd 100%);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(199, 108, 221, 0.3);
+        }
+
+        /* 식습관 섹션 */
+        #survey-form {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .question-block {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .question-title {
+            color: #444;
+            font-weight: 500;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+            display: block;
+        }
+
+        .question-title b u {
+            color: #d946ef;
+            text-decoration: none;
+            background: linear-gradient(to bottom, transparent 60%, rgba(217, 70, 239, 0.2) 40%);
+            padding: 0 2px;
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-label {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            border: 2px solid #e0e0e0;
+        }
+
+        .option-label:hover {
+            background: #fce4ec;
+            border-color: #d946ef;
+            transform: translateX(5px);
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #d946ef;
+        }
+
+        .option-label input[type="radio"]:checked + span {
+            color: #d946ef;
+            font-weight: 500;
+        }
+
+        /* 버튼 스타일 */
+        button {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c66cdd 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 5px 15px rgba(199, 108, 221, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(199, 108, 221, 0.4);
+            background: linear-gradient(135deg, #ff8fab 0%, #d18ce0 100%);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        /* 메시지 스타일 */
+        #diet-message {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin: 20px auto;
+            text-align: center;
+            max-width: 500px;
+            font-weight: 500;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 최종 결과 박스 */
+        #final-result-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px auto;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 600px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #final-result-box::before {
+            content: '🎉';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2em;
+            opacity: 0.5;
+        }
+
+        #final-result-box::after {
+            content: '🏆';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2em;
+            opacity: 0.5;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #final-result {
+            color: #444;
+            font-size: 1.2em;
+            line-height: 2;
+        }
+
+        .result-red {
+            color: #d946ef;
+            font-weight: 700;
+            font-size: 1.3em;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c66cdd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .type-container {
+                grid-template-columns: 1fr;
+            }
+
+            .horizontal-radio {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .horizontal-radio label {
+                width: 80%;
+                text-align: center;
+            }
+        }
+
+        /* 로딩 애니메이션 */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .loading {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- 버블 애니메이션 요소들 -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <div class="container">
+        <div class="header-box">
+            <h1>나의 건강 습관 점검하기</h1>
+            <h2>똑똑하게 모여보자!<br>우리 반 건강 모둠</h2>
+            <p>검사 결과를 토대로 활동지를 채워보세요!</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">1. 수면 유형</h2>
+            <p>그림 아래 설명을 읽고 나에게 해당하는 수면 유형의 새 그림을 클릭하세요.</p>
+            <div class="type-container">
+                <div class="type-item" onclick="selectSleepType('종달새', this)">
+                    <h3>종달새</h3>
+                    <img src="jongdal.jpg" alt="종달새">
+                    <p>종달새는 아침형 인간으로, 일찍 일어나 활동하는 유형입니다.</p>
+                </div>
+                <div class="type-item" onclick="selectSleepType('벌새', this)">
+                    <h3>벌새</h3>
+                    <img src="hummingbird.jpg" alt="벌새">
+                    <p>벌새는 낮과 밤 모두 균형 잡힌 생활 패턴을 가지고 있습니다.</p>
+                </div>
+                <div class="type-item" onclick="selectSleepType('올빼미', this)">
+                    <h3>올빼미</h3>
+                    <img src="owl.jpg" alt="올빼미">
+                    <p>올빼미는 저녁형 인간으로, 밤에 활발히 활동하는 유형입니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">2. 신체 활동</h2>
+            <p>일주일간 60분 이상 운동한 날은 몇 일인가요? (체육시간 포함X)</p>
+            <div class="horizontal-radio">
+                <input type="radio" id="exercise-0" name="exercise-days" value="0">
+                <label for="exercise-0">0일</label>
+                
+                <input type="radio" id="exercise-1" name="exercise-days" value="1">
+                <label for="exercise-1">1일</label>
+                
+                <input type="radio" id="exercise-2" name="exercise-days" value="2">
+                <label for="exercise-2">2일</label>
+                
+                <input type="radio" id="exercise-3" name="exercise-days" value="3">
+                <label for="exercise-3">3일</label>
+                
+                <input type="radio" id="exercise-4" name="exercise-days" value="4">
+                <label for="exercise-4">4일</label>
+                
+                <input type="radio" id="exercise-5" name="exercise-days" value="5">
+                <label for="exercise-5">5일</label>
+                
+                <input type="radio" id="exercise-6" name="exercise-days" value="6">
+                <label for="exercise-6">6일</label>
+                
+                <input type="radio" id="exercise-7" name="exercise-days" value="7">
+                <label for="exercise-7">7일</label>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">3. 식습관</h2>
+            <p>문항을 선택한 후 제출 버튼을 눌러주세요.</p>
+            <form id="survey-form">
+                <!-- Question 1 -->
+                <div class="question-block">
+                    <label class="question-title">1. 한 번 식사할 때 <b><u>채소류 반찬</u></b>을 몇 가지나 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question1" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question1" value="2"><span>1가지</span></label>
+                        <label class="option-label"><input type="radio" name="question1" value="3"><span>2가지</span></label>
+                        <label class="option-label"><input type="radio" name="question1" value="4"><span>3가지</span></label>
+                        <label class="option-label"><input type="radio" name="question1" value="5"><span>4가지 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question-block">
+                    <label class="question-title">2. <b><u>과일</u></b>을 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question2" value="1"><span>2주에 1번 이하</span></label>
+                        <label class="option-label"><input type="radio" name="question2" value="2"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question2" value="3"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question2" value="4"><span>하루에 1번</span></label>
+                        <label class="option-label"><input type="radio" name="question2" value="5"><span>하루에 2번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question-block">
+                    <label class="question-title">3. <b><u>흰 우유나 유제품(치즈, 플레인 요구르트)</u></b>을 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question3" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question3" value="2"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question3" value="3"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question3" value="4"><span>하루에 1번</span></label>
+                        <label class="option-label"><input type="radio" name="question3" value="5"><span>하루에 2번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="question-block">
+                    <label class="question-title">4. <b><u>생선이나 조개류(오징어,굴,새우 등 포함)</u></b>를 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question4" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question4" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question4" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question4" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question4" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="question-block">
+                    <label class="question-title">5. <b><u>달걀(메추리알 포함)</u></b>을 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question5" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question5" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question5" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question5" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question5" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="question-block">
+                    <label class="question-title">6. <b><u>콩이나 두부(두유 포함)</u></b>를 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question6" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question6" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question6" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question6" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question6" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="question-block">
+                    <label class="question-title">7. <b><u>견과류(호두, 아몬드 등)</u></b>를 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question7" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question7" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question7" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question7" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question7" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="question-block">
+                    <label class="question-title">8. <b><u>단 음식(초콜릿, 젤리 등) 또는 단 음료(탄산음료, 과일맛 음료, 흑당 음료 등)</u></b>를 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question8" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question8" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question8" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question8" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question8" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="question-block">
+                    <label class="question-title">9. <b><u>기름진 간식(생크림 빵, 버터칩, 핫도그 등)이나 튀김류(닭튀김, 탕수육, 감자튀김 등)</u></b>를 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question9" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question9" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question9" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question9" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question9" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="question-block">
+                    <label class="question-title">10. <b><u>라면(컵라면 포함)</u></b>을 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question10" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question10" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question10" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question10" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question10" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 11 -->
+                <div class="question-block">
+                    <label class="question-title">11. <b><u>햄, 소시지, 베이컨 등의 가공육류</u></b>를 얼마나 자주 먹나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question11" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question11" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question11" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question11" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question11" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 12 -->
+                <div class="question-block">
+                    <label class="question-title">12. <b><u>과식</u></b>을 얼마나 자주 하나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question12" value="1"><span>거의 하지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question12" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question12" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question12" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question12" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 13 -->
+                <div class="question-block">
+                    <label class="question-title">13. <b><u>학교나 학원주변(편의점, 패스트푸드점, 분식점 등)</u></b>에서 음식을 얼마나 자주 사 먹나요</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question13" value="1"><span>사 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question13" value="2"><span>2주일에 1번 정도</span></label>
+                        <label class="option-label"><input type="radio" name="question13" value="3"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question13" value="4"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question13" value="5"><span>하루에 1번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 14 -->
+                <div class="question-block">
+                    <label class="question-title">14. <b><u>식사할 때 돌아다니거나, 스마트폰, 게임, TV, 책 등을 보면서 식사</u></b>하는 편인가요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question14" value="1"><span>전혀 그렇지 않다</span></label>
+                        <label class="option-label"><input type="radio" name="question14" value="2"><span>그렇지 않은 편이다</span></label>
+                        <label class="option-label"><input type="radio" name="question14" value="3"><span>보통이다</span></label>
+                        <label class="option-label"><input type="radio" name="question14" value="4"><span>그렇다</span></label>
+                        <label class="option-label"><input type="radio" name="question14" value="5"><span>매우 그렇다</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 15 -->
+                <div class="question-block">
+                    <label class="question-title">15. <b><u>아침 식사</u></b>를 얼마나 자주 하나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question15" value="1"><span>거의 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question15" value="2"><span>일주일에 1~2번</span></label>
+                        <label class="option-label"><input type="radio" name="question15" value="3"><span>일주일에 3~4번</span></label>
+                        <label class="option-label"><input type="radio" name="question15" value="4"><span>일주일에 5~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question15" value="5"><span>매일</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 16 -->
+                <div class="question-block">
+                    <label class="question-title">16. <b><u>가공식품을 살 때 식품표시(영양표시, 알레르기 성분 표시 등)</u></b>를 확인하나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question16" value="1"><span>전혀 확인하지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question16" value="2"><span>확인하지 않는 편이다</span></label>
+                        <label class="option-label"><input type="radio" name="question16" value="3"><span>보통이다</span></label>
+                        <label class="option-label"><input type="radio" name="question16" value="4"><span>확인하는 편이다</span></label>
+                        <label class="option-label"><input type="radio" name="question16" value="5"><span>항상 확인한다</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 17 -->
+                <div class="question-block">
+                    <label class="question-title">17. 음식을 먹기 전에 <b><u>손을 씻나요?</u></b></label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question17" value="1"><span>전혀 씻지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question17" value="2"><span>씻지 않는 편이다</span></label>
+                        <label class="option-label"><input type="radio" name="question17" value="3"><span>보통이다</span></label>
+                        <label class="option-label"><input type="radio" name="question17" value="4"><span>씻는 편이다</span></label>
+                        <label class="option-label"><input type="radio" name="question17" value="5"><span>항상 씻는다</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 18 -->
+                <div class="question-block">
+                    <label class="question-title">18. 평상시 얼마나 자주 <b><u>가족과 함께</u></b> 식사하나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question18" value="1"><span>함께 먹지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question18" value="2"><span>일주일에 1~3번</span></label>
+                        <label class="option-label"><input type="radio" name="question18" value="3"><span>일주일에 4~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question18" value="4"><span>하루에 1번</span></label>
+                        <label class="option-label"><input type="radio" name="question18" value="5"><span>하루에 2번 이상</span></label>
+                    </div>
+                </div>
+
+                <!-- Question 19 -->
+                <div class="question-block">
+                    <label class="question-title">19. 하루에 <b><u>30분 이상의 운동(체육시간 포함X)</u></b>을 얼마나 자주 하나요?</label>
+                    <div class="option-group">
+                        <label class="option-label"><input type="radio" name="question19" value="1"><span>하지 않는다</span></label>
+                        <label class="option-label"><input type="radio" name="question19" value="2"><span>일주일에 1~2번</span></label>
+                        <label class="option-label"><input type="radio" name="question19" value="3"><span>일주일에 3~4번</span></label>
+                        <label class="option-label"><input type="radio" name="question19" value="4"><span>일주일에 5~6번</span></label>
+                        <label class="option-label"><input type="radio" name="question19" value="5"><span>매일</span></label>
+                    </div>
+                </div>
+            </form>
+            <button onclick="submitDiet()">제출</button>
+            <p id="diet-message" style="display: none;">제출되었습니다! [모든 설문 완료] 버튼을 눌러주세요.</p>
+        </div>
+
+        <div id="final-result-box">
+            <h2 id="final-result"></h2>
+        </div>
+
+        <button onclick="calculateFinalResult()">모든 설문 완료</button>
+    </div>
+
+    <!-- 개발자 정보 -->
+    <div style="text-align: center; margin-top: 50px; padding: 20px;">
+        <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.85em; font-weight: 300;">
+            Developed by 수성중학교 최준아
+        </p>
+    </div>
+
+    <script>
+        let sleepType = "선택하지 않음";
+        let activityScore = "선택하지 않음";
+        let dietScore = "선택하지 않음";
+
+        function selectSleepType(type, element) {
+            sleepType = type;
+            document.querySelectorAll('.type-item').forEach(item => item.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function submitDiet() {
+            const unanswered = [];
+            const questions = document.querySelectorAll('#survey-form input[type="radio"]');
+            const answered = new Set([...questions].filter(input => input.checked).map(input => input.name));
+            for (let i = 1; i <= 19; i++) {
+                if (!answered.has(`question${i}`)) unanswered.push(i);
+            }
+            if (unanswered.length > 0) {
+                alert(`${unanswered.join(", ")}번 문항에 답해주세요.`);
+                return;
+            }
+            
+            // Calculate actual diet score
+            let totalScore = 0;
+            for (let i = 1; i <= 19; i++) {
+                const selected = document.querySelector(`input[name="question${i}"]:checked`);
+                if (selected) {
+                    totalScore += parseInt(selected.value);
+                }
+            }
+            
+            dietScore = `${totalScore}점`;
+            document.getElementById('diet-message').style.display = 'block';
+        }
+
+        function calculateFinalResult() {
+            const selectedActivity = document.querySelector('input[name="exercise-days"]:checked');
+            activityScore = selectedActivity ? `${parseInt(selectedActivity.value)}일` : "선택하지 않음";
+            
+            document.getElementById('final-result').innerHTML = `
+                나의 수면 유형 : <span class="result-red">${sleepType}</span><br>
+                나의 식습관 점수 : <span class="result-red">${dietScore}</span><br>
+                나의 신체활동 점수 : <span class="result-red">${activityScore}</span><br><br>
+                각각의 유형과 내용을 활동지에 작성해보세요♥
+            `;
+            document.getElementById('final-result-box').style.display = 'block';
+            
+            // Scroll to result
+            document.getElementById('final-result-box').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>
