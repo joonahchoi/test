@@ -208,7 +208,7 @@
         /* 수면 유형 섹션 */
         .type-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
@@ -221,6 +221,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: 3px solid transparent;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .type-item:hover {
@@ -249,10 +253,12 @@
 
         .type-item img {
             width: 100%;
-            height: 120px;
-            object-fit: cover;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
             border-radius: 10px;
             margin-bottom: 15px;
+            background: #f8f9ff;
         }
 
         .type-item p {
